@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Admin</title>
+  </head>
+  <body>
+    <div class="m-10">
+      <div class="grid place-items-center">
+        <div class="p-10 bg-white rounded-lg shadow-md lg:shadow-lg w-3/4">
+          <h1 class="center"><b>ADMIN PANEL</b></h1>
+          <div>
+            <div class="border-black border-2 p-5">
+              <p>
+                <b>Question: </b
+                ><input
+                  id="question"
+                  type="text"
+                  value=""
+                  placeholder="Please enter the question?"
+                />
+              </p>
+              <div class="flex">
+                <p><b>1)</b>&nbsp</p>
+                <p>
+                  <input
+                    id="option1"
+                    type="text"
+                    value=""
+                    placeholder="Option 1"
+                  />
+                </p>
+              </div>
+              <div class="flex">
+                <p><b>2)</b>&nbsp</p>
+                <p>
+                  <input
+                    id="option2"
+                    type="text"
+                    value=""
+                    placeholder="Option 2"
+                  />
+                </p>
+              </div>
+              <div class="flex">
+                <p><b>3)</b>&nbsp</p>
+                <p>
+                  <input
+                    id="option3"
+                    type="text"
+                    value=""
+                    placeholder="Option 3"
+                  />
+                </p>
+              </div>
+              <div class="flex">
+                <p><b>4)</b>&nbsp</p>
+                <p>
+                  <input
+                    id="option4"
+                    type="text"
+                    value=""
+                    placeholder="Option 4"
+                  />
+                </p>
+              </div>
+              <div class="flex">
+                <p><b>Correct Option</b>&nbsp</p>
+                <p>
+                  <input
+                    id="correctOption"
+                    type="text"
+                    value=""
+                    placeholder="Correct Option"
+                  />
+                </p>
+              </div>
+              <button
+                type="button"
+                onclick="createQuestion(event)"
+                class="bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Create Next Question
+              </button>
+            </div>
+          </div>
+          <br />
+          <button
+            type="button"
+            onclick="back()"
+            class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Back to Dashboard
+          </button>
+          <button
+            type="button"
+            onclick="quiz()"
+            class="bg-blue-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          >
+            SHOW QUIZ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function createQuestion(e) {
+        e.preventDefault();
+        let xhr = new XMLHttpRequest();
+        let url = "http://localhost:5000/create/quiz ";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        let question = document.getElementById("question").value;
+        let option1 = document.getElementById("option1").value;
+        let option2 = document.getElementById("option2").value;
+        let option3 = document.getElementById("option3").value;
+        let option4 = document.getElementById("option4").value;
+        let correct = document.getElementById("correctOption").value;
+        const data = `{
+        "question": "${question}",
+        "option1": "${option1}",
+        "option2": "${option2}",
+        "option3": "${option3}",
+        "option4": "${option4}",
+        "correct": "${correct}"
+      }`;
+        xhr.send(data);
+        xhr.onload = () => location.assign("http://localhost:5000/admin");
+      }
+      function back() {
+        location.assign("http://localhost:5000/login");
+      }
+      function quiz() {
+        location.assign("http://localhost:5000/quiz");
+      }
+    </script>
+  </body>
+</html>

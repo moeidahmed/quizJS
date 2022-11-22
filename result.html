@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Result</title>
+  </head>
+  <style>
+    .display {
+      display: none;
+    }
+  </style>
+  <body>
+    <div style="display: flex">
+      <div>
+        <button
+          onclick="Result()"
+          type="button"
+          class="bg-blue-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        >
+          CLICK HERE TO SHOW RESULT
+        </button>
+      </div>
+      <br />
+
+      <div id="btn-2">
+        <button
+          onclick="back()"
+          type="button"
+          class="bg-red-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Back
+        </button>
+      </div>
+    </div>
+    <br />
+    <h id="displayResult"></h>
+    <script>
+      function Result() {
+        let score = 0;
+        let xhttp = new XMLHttpRequest();
+        let url = "http://localhost:5000/get/result";
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            let data = JSON.parse(this.responseText);
+            for (let a = 0; a < data.length; a++) {
+              let us = data[a].userSelectedOption;
+              let co = data[a].correctOption;
+              var length = data.length;
+              if (String(us) == String(co)) {
+                score += 1;
+              } else {
+                score += 0;
+              }
+            }
+            let res = document.getElementById("displayResult");
+            res.innerHTML = 2;
+
+            if ((score / length) * 100 >= 70) {
+              res.innerHTML = `<b>Congratulations! You Passed this Quiz, You Score ${score} out of ${length}.</b>`;
+            } else {
+              res.innerHTML = `<b>Oops Failed! Please Try Again, You Score ${score} out of ${length}.</b>`;
+            }
+          }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+      }
+      function back() {
+        del = new XMLHttpRequest();
+        url = "http://localhost:5000/delete/data";
+        del.open("DELETE", url, true);
+        del.send();
+        location.assign("http://localhost:5000/login");
+      }
+    </script>
+  </body>
+</html>
